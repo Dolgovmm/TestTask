@@ -10,13 +10,11 @@ import java.util.List;
  */
 public interface DbService {
 
-    public long add(Contact entity) throws DbServiceException;
+    public void add(Contact entity) throws DbServiceException;
 
-    public Contact getById(long id);
+    public Contact getByName(String firstName) throws DbServiceException;
 
-    public List<Contact> getAll();
+    public void update(Contact entity) throws DbServiceException;
 
-    public long update(Contact entity);
-
-    public long remove(long id);
+    public void delete(Contact entity) throws DbServiceException;
 }

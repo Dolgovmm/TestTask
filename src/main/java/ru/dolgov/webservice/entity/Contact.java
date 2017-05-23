@@ -24,7 +24,7 @@ public class Contact implements Serializable{
     private String email;
 
     @Column(name = "TELEPHONE")
-    private String telephone;
+    private String telephoneNumber;
 
     public Integer getId() {
         return id;
@@ -58,12 +58,12 @@ public class Contact implements Serializable{
         this.email = email;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Contact implements Serializable{
         if (this == obj) return true;
         Contact contact = (Contact) obj;
         if (this.id == contact.id && this.firstName.equals(contact.getFirstName()) &&
-                this.lastName.equals(contact.getLastName()) && this.getTelephone().equals(contact.getTelephone()) &&
+                this.lastName.equals(contact.getLastName()) && this.getTelephoneNumber().equals(contact.getTelephoneNumber()) &&
                 this.email.equals(contact.getEmail())) {
             return true;
         }
@@ -82,6 +82,6 @@ public class Contact implements Serializable{
     @Override
     public String toString() {
         return "Contact [id= " + id + ", firstName= " + firstName + ", lastName= " + lastName + ", email= " + email
-                + ", telephone= " + telephone + "]";
+                + ", telephone= " + telephoneNumber + "]";
     }
 }

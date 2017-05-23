@@ -20,27 +20,22 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public long add(Contact entity) throws DbServiceException{
-        return dbService.add(entity);
+    public void add(Contact entity) throws DbServiceException{
+        dbService.add(entity);
     }
 
     @Override
-    public Contact getById(long id) {
-        return null;
+    public Contact getByName(String name) throws DbServiceException{
+        return dbService.getByName(name);
     }
 
     @Override
-    public List<Contact> getAll() {
-        return null;
+    public void update(Contact entity) throws DbServiceException{
+        dbService.update(entity);
     }
 
     @Override
-    public long update(Contact entity) {
-        return 0;
-    }
-
-    @Override
-    public long delete(long id) {
-        return 0;
+    public void delete(Contact entity) throws DbServiceException{
+        dbService.delete(entity);
     }
 }

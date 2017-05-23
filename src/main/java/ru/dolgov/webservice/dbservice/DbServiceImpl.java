@@ -3,6 +3,7 @@ package ru.dolgov.webservice.dbservice;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import ru.dolgov.webservice.entity.Contact;
 
 import java.util.List;
@@ -13,15 +14,14 @@ import java.util.List;
 public class DbServiceImpl implements DbService {
 
     @Override
-    public long add(Contact entity) throws DbServiceException{
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+    public void add(Contact entity) throws DbServiceException{
+        Session session = null;
         try {
+            session = HibernateSessionFactory.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
             session.save(entity);//todo: add return id of saved entity
             transaction.commit();
-            return 1;
         } catch (HibernateException ex) {
-            transaction.rollback();
             throw new DbServiceException(ex.getMessage());
         } finally {
             if (session != null && session.isOpen()) {
@@ -31,22 +31,53 @@ public class DbServiceImpl implements DbService {
     }
 
     @Override
-    public Contact getById(long id) {
-        return null;
+    public Contact getByName(String name) throws DbServiceException{
+        Session session = null;
+        Contact contact = null;
+        try {
+            session = HibernateSessionFactory.getSessionFactory().openSession();
+            contact = session.load(Contact.class, name);
+        } catch (HibernateException ex) {
+            throw new DbServiceException(ex.getMessage());
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return contact;
     }
 
     @Override
-    public List<Contact> getAll() {
-        return null;
+    public void update(Contact entity) throws DbServiceException{
+        Session session = null;
+        try {
+            session = HibernateSessionFactory.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            session.update(entity);
+            transaction.commit();
+        } catch (HibernateException ex) {
+            throw new DbServiceException(ex.getMessage());
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     @Override
-    public long update(Contact entity) {
-        return 0;
-    }
-
-    @Override
-    public long remove(long id) {
-        return 0;
+    public void delete(Contact entity) throws DbServiceException{
+        Session session = null;
+        try {
+            session = HibernateSessionFactory.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (HibernateException ex) {
+            throw new DbServiceException(ex.getMessage());
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 }
