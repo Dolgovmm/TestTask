@@ -1,4 +1,4 @@
-package ru.dolgov.webservice.repository;
+package ru.dolgov.webservice.dbservice;
 
 import ru.dolgov.webservice.entity.Contact;
 
@@ -7,10 +7,8 @@ import java.util.List;
 /**
  * Created by Михалыч on 23.05.2017.
  */
-public class RepositoryImpl implements Repository {
-
-
-
+public class DbServiceImpl implements DbService {
+    
     @Override
     public long add(Contact entity) {
         return 0;
@@ -32,7 +30,7 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public long delete(long id) {
+    public long remove(long id) {
         return 0;
     }
 }
