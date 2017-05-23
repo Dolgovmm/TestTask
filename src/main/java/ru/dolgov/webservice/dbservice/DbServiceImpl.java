@@ -1,5 +1,8 @@
 package ru.dolgov.webservice.dbservice;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import ru.dolgov.webservice.entity.Contact;
 
 import java.util.List;
@@ -10,8 +13,21 @@ import java.util.List;
 public class DbServiceImpl implements DbService {
 
     @Override
-    public long add(Contact entity) {
-        return 0;
+    public long add(Contact entity) throws DbServiceException{
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.save(entity);//todo: add return id of saved entity
+            transaction.commit();
+            return 1;
+        } catch (HibernateException ex) {
+            transaction.rollback();
+            throw new DbServiceException(ex.getMessage());
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     @Override

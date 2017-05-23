@@ -1,5 +1,6 @@
 package ru.dolgov.webservice.dbservice;
 
+import org.hibernate.HibernateException;
 import ru.dolgov.webservice.entity.Contact;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface DbService {
 
-    public long add(Contact entity);
+    public long add(Contact entity) throws DbServiceException;
 
     public Contact getById(long id);
 
