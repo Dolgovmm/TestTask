@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Михалыч on 23.05.2017.
  */
 public class DbServiceImpl implements DbService {
-    
+
     @Override
     public long add(Contact entity) {
         return 0;
