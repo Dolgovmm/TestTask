@@ -1,13 +1,14 @@
 package ru.dolgov.webservice.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Михалыч on 22.05.2017.
  */
 @Entity
 @Table(name = "CONTACTS")
-public class Contact {
+public class Contact implements Serializable{
     @Id
     @Column(name = "ID")
     @GeneratedValue
