@@ -13,11 +13,12 @@ import java.util.List;
  */
 public class RepositoryImpl implements Repository {
 
-    private DbService dbService;
+    private DbService dbService = new DbServiceImpl();
 
-    public RepositoryImpl() {
-        dbService = new DbServiceImpl();
-    }
+//    public RepositoryImpl() {
+//        System.out.println("create dbService");
+//        dbService = new DbServiceImpl();
+//    }
 
     @Override
     public void add(Contact entity) throws DbServiceException{

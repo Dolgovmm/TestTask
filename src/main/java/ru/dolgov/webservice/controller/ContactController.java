@@ -23,8 +23,9 @@ public class ContactController {
     private Repository repository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody void addContact(@RequestBody String json){
+    public void addContact(@RequestBody String json){
         try {
             add(json);
         } catch (IOException e) {
@@ -35,8 +36,9 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/contacts/{name}", method = RequestMethod.GET)
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Contact getContactByName(@PathVariable String name){
+    public Contact getContactByName(@PathVariable String name){
         Contact contact = null;
         try {
             contact = repository.getByName(name);
@@ -47,8 +49,9 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public @ResponseBody void updateContact(@RequestBody String json){
+    public void updateContact(@RequestBody String json){
         try {
             update(json);
         } catch (IOException e) {
@@ -59,8 +62,9 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public @ResponseBody void deleteContact(@RequestBody String json){
+    public void deleteContact(@RequestBody String json){
         try {
             delete(json);
         } catch (IOException e) {

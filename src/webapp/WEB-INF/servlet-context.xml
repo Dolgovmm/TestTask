@@ -24,4 +24,18 @@
 		</property>
 	</bean>
 
+	<!-- Всю статику (изображения, css-файлы, javascript) положим в папку webapp/resources
+		и замаппим их на урл вида /resources/** -->
+	<!--<mvc:resources mapping="/resources/**" location="/resources/" />-->
+
+	<!--&lt;!&ndash; Отображение видов на jsp-файлы, лежащие в папке /WEB-INF/views &ndash;&gt;-->
+	<!--<bean-->
+		<!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+		<!--<property name="prefix" value="/WEB-INF/views/" />-->
+		<!--<property name="suffix" value=".jsp" />-->
+	<!--</bean>-->
+
+	<!-- Файл с настройками контроллеров -->
+	<import resource="controllers.xml"/>
+
 </beans>
