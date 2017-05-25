@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.dolgov.webservice.dbservice.DbServiceException;
+import ru.dolgov.webservice.dbservice.HibernateSessionFactory;
 import ru.dolgov.webservice.entity.Contact;
 import ru.dolgov.webservice.repository.Repository;
 
@@ -28,7 +29,8 @@ public class ContactController {
     @ResponseBody
     public ResponseEntity<Contact> addContact(@RequestBody String json){
         try {
-            add(json);
+            Contact contact = new ObjectMapper().readValue(json, Contact.class);
+            repository.add(contact);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IOException | DbServiceException e) {
             e.printStackTrace();
@@ -53,7 +55,8 @@ public class ContactController {
     @ResponseBody
     public ResponseEntity<Contact> updateContact(@RequestBody String json){
         try {
-            update(json);
+            Contact contact = new ObjectMapper().readValue(json, Contact.class);
+            repository.update(contact);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (IOException | DbServiceException e) {
             e.printStackTrace();
@@ -65,26 +68,12 @@ public class ContactController {
     @ResponseBody
     public ResponseEntity<Contact> deleteContact(@RequestBody String json){
         try {
-            delete(json);
+            Contact contact = new ObjectMapper().readValue(json, Contact.class);
+            repository.delete(contact);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException | DbServiceException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
-
-    private void add(String json) throws IOException, DbServiceException {
-        Contact contact = new ObjectMapper().readValue(json, Contact.class);
-        repository.add(contact);
-    }
-
-    private void update(String json) throws IOException, DbServiceException {
-        Contact contact = new ObjectMapper().readValue(json, Contact.class);
-        repository.update(contact);
-    }
-
-    private void delete(String json) throws IOException, DbServiceException {
-        Contact contact = new ObjectMapper().readValue(json, Contact.class);
-        repository.delete(contact);
     }
 }

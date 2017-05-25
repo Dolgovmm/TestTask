@@ -15,4 +15,8 @@ public class HibernateSessionFactory {
         }
         return sessionFactory;
     }
+
+    public static void shutDown(){
+        sessionFactory.close();
+    }
 }

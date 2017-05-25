@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Contact implements Serializable{
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(name = "firstname", length = 255, nullable = false, unique = true)
