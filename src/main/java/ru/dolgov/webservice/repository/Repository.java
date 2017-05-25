@@ -12,7 +12,7 @@ public interface Repository {
 
     public void add(Contact entity) throws DbServiceException;
 
-    public Contact getByName(String name) throws DbServiceException;
+    public List<Contact> getByName(String name) throws DbServiceException;
 
     public void update(Contact entity) throws DbServiceException;
 

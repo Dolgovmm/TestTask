@@ -7,24 +7,24 @@ import java.io.Serializable;
  * Created by Михалыч on 22.05.2017.
  */
 @Entity
-@Table(name = "CONTACTS")
+@Table(name = "contacts")
 public class Contact implements Serializable{
     @Id
-    @Column(name = "ID")
-    @GeneratedValue
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "FIRSTNAME")
+    @Column(name = "firstname", length = 255, nullable = false, unique = true)
     private String firstName;
 
-    @Column(name = "LASTNAME")
+    @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "TELEPHONE")
-    private String telephoneNumber;
+    @Column(name = "telephone")
+    private String telephone;
 
     public Integer getId() {
         return id;
@@ -58,12 +58,12 @@ public class Contact implements Serializable{
         this.email = email;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setTelephoneNumber(String telephone) {
+        this.telephone = telephone;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Contact implements Serializable{
         if (this == obj) return true;
         Contact contact = (Contact) obj;
         if (this.id == contact.id && this.firstName.equals(contact.getFirstName()) &&
-                this.lastName.equals(contact.getLastName()) && this.getTelephoneNumber().equals(contact.getTelephoneNumber()) &&
+                this.lastName.equals(contact.getLastName()) && this.getTelephone().equals(contact.getTelephone()) &&
                 this.email.equals(contact.getEmail())) {
             return true;
         }
@@ -82,6 +82,6 @@ public class Contact implements Serializable{
     @Override
     public String toString() {
         return "Contact [id= " + id + ", firstName= " + firstName + ", lastName= " + lastName + ", email= " + email
-                + ", telephone= " + telephoneNumber + "]";
+                + ", telephone= " + telephone + "]";
     }
 }

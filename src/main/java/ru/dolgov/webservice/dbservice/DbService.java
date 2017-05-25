@@ -12,7 +12,7 @@ public interface DbService {
 
     public void add(Contact entity) throws DbServiceException;
 
-    public Contact getByName(String firstName) throws DbServiceException;
+    public List<Contact> getByName(String firstName) throws DbServiceException;
 
     public void update(Contact entity) throws DbServiceException;
 

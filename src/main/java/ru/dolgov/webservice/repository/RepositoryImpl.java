@@ -26,7 +26,7 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Contact getByName(String name) throws DbServiceException{
+    public List<Contact> getByName(String name) throws DbServiceException{
         return dbService.getByName(name);
     }
 
