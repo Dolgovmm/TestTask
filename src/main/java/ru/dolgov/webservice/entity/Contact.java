@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by Михалыч on 22.05.2017.
+ * @author M.Dolgov
+ * @date 22.05.2017
  */
 @Entity
 @Table(name = "contacts")

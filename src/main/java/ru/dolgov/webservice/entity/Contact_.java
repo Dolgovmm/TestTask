@@ -4,7 +4,8 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 /**
- * Created by Михалыч on 25.05.2017.
+ * @author M.Dolgov
+ * @date 25.05.2017
  */
 @StaticMetamodel(Contact.class)
 public class Contact_ {

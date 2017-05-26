@@ -6,7 +6,8 @@ import ru.dolgov.webservice.entity.Contact;
 import java.util.List;
 
 /**
- * Created by Михалыч on 22.05.2017.
+ * @author M.Dolgov
+ * @date 22.05.2017
  */
 public interface Repository {
 

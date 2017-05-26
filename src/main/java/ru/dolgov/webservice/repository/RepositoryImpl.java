@@ -9,16 +9,19 @@ import ru.dolgov.webservice.entity.Contact;
 import java.util.List;
 
 /**
- * Created by Михалыч on 23.05.2017.
+ * @author M.Dolgov
+ * @date 23.05.2017
  */
 public class RepositoryImpl implements Repository {
+	static final Logger logger = LoggerFactory.getLogger(RepositoryImpl.class);
 
-    private DbService dbService = new DbServiceImpl();
+    private DbService dbService;
 
-//    public RepositoryImpl() {
-//        System.out.println("create dbService");
-//        dbService = new DbServiceImpl();
-//    }
+    public RepositoryImpl() {
+		logger.debug("begin constructor RepositoryImpl");
+        dbService = new DbServiceImpl();
+		logger.debug("end constructor RepositoryImpl");
+   }
 
     @Override
     public void add(Contact entity) throws DbServiceException{
