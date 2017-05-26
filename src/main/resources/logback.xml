@@ -28,7 +28,7 @@
         </timeBasedFileNamingAndTriggeringPolicy>
     </rollingPolicy>
 
-    <logger name="ru.unionfreearts.webservice" level="debug" additivity="false">
+    <logger name="ru.dolgov.webservice" level="debug" additivity="false">
         <appender-ref ref="file" />
     </logger>
 
