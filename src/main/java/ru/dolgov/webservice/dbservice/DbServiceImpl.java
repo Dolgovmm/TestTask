@@ -3,6 +3,8 @@ package ru.dolgov.webservice.dbservice;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.dolgov.webservice.entity.Contact;
 import ru.dolgov.webservice.entity.Contact_;
 
@@ -34,7 +36,7 @@ public class DbServiceImpl implements DbService {
 			logger.debug("transaction commit");
         } catch (HibernateException e) {
             logger.error("error save contact: " + entity.toString() + " to DB with message: " + e.getMessage());
-			throw new DbServiceException(ex.getMessage());
+			throw new DbServiceException(e.getMessage());
         } finally {
             if (session != null && session.isOpen()) {
 				session.close();
@@ -65,7 +67,7 @@ public class DbServiceImpl implements DbService {
 			logger.debug("get list from query with " + list.size() + " elements");
         } catch (HibernateException e) {
 			logger.error("error get contact by name: " + firstName + " from DB with message: " + e.getMessage());
-            throw new DbServiceException(ex.getMessage());
+            throw new DbServiceException(e.getMessage());
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -90,7 +92,7 @@ public class DbServiceImpl implements DbService {
 			logger.debug("commit transaction");
         } catch (HibernateException e) {
             logger.error("error update contact: " + entity.toString() + " to DB with message: " + e.getMessage());
-			throw new DbServiceException(ex.getMessage());
+			throw new DbServiceException(e.getMessage());
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -114,7 +116,7 @@ public class DbServiceImpl implements DbService {
 			logger.debug("commit transaction");
         } catch (HibernateException e) {
 			logger.error("error delete contact: " + entity.toString() + " from DB with message: " + e.getMessage());
-            throw new DbServiceException(ex.getMessage());
+            throw new DbServiceException(e.getMessage());
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();

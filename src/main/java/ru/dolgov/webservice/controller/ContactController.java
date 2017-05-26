@@ -1,6 +1,8 @@
 package ru.dolgov.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.dolgov.webservice.dbservice.DbServiceException;
-import ru.dolgov.webservice.dbservice.HibernateSessionFactory;
 import ru.dolgov.webservice.entity.Contact;
 import ru.dolgov.webservice.repository.Repository;
 
@@ -31,8 +32,9 @@ public class ContactController {
     @ResponseBody
     public ResponseEntity<Contact> addContact(@RequestBody String json){
         logger.debug("add Contact method with request json: " + json);
+        Contact contact;
 		try {
-            Contact contact = new ObjectMapper().readValue(json, Contact.class);
+            contact = new ObjectMapper().readValue(json, Contact.class);
             logger.debug("create contact entity from json string");
 			repository.add(contact);
 			logger.debug("add created Contact entity: " + contact.toString() + " to repository");
@@ -41,7 +43,7 @@ public class ContactController {
             logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (DbServiceException e) {
-			logger.error("error add Contact entity " + contact.toString() + " to repository wih message: " + e.getMessage());
+			logger.error("error add Contact entity to repository wih message: " + e.getMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
     }
@@ -53,7 +55,7 @@ public class ContactController {
 		List<Contact> contacts = null;
         try {
             contacts = repository.getByName(name);
-			logger.debug("get Contact entity: " + contact.toString() + " from DB");
+			logger.debug("get Contact entity: " + contacts.toString() + " from DB");
             return new ResponseEntity<>(contacts, HttpStatus.OK);
         } catch (DbServiceException e) {
             logger.error("error getting Contact entity from DB with message: + " + e.getMessage());
@@ -65,8 +67,9 @@ public class ContactController {
     @ResponseBody
     public ResponseEntity<Contact> updateContact(@RequestBody String json){
         logger.debug("update Contact method with request json: " + json);
+        Contact contact;
 		try {
-            Contact contact = new ObjectMapper().readValue(json, Contact.class);
+            contact = new ObjectMapper().readValue(json, Contact.class);
 			logger.debug("create contact entity from json string");
             repository.update(contact);
 			logger.debug("update created Contact entity: " + contact.toString() + " to repository");
@@ -75,7 +78,7 @@ public class ContactController {
             logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (DbServiceException e) {
-			logger.error("error update Contact entity: " + contact.toString() + " from DB with message: + " + e.getMessage());
+			logger.error("error update Contact entity from DB with message: + " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
     }
@@ -84,8 +87,9 @@ public class ContactController {
     @ResponseBody
     public ResponseEntity<Contact> deleteContact(@RequestBody String json){
         logger.debug("delete Contact method with request json: " + json);
-		try {
-            Contact contact = new ObjectMapper().readValue(json, Contact.class);
+		Contact contact;
+        try {
+            contact = new ObjectMapper().readValue(json, Contact.class);
             logger.debug("create contact entity from json string");
 			repository.delete(contact);
             logger.debug("delete created Contact entity: " + contact.toString() + " from repository");
@@ -94,7 +98,7 @@ public class ContactController {
             logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (DbServiceException e) {
-			logger.error("error delete Contact entity: " + contact.toString() + " from DB with message: + " + e.getMessage());
+			logger.error("error delete Contact entity from DB with message: + " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
     }

@@ -1,6 +1,7 @@
 package ru.dolgov.webservice.repository;
 
-import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.dolgov.webservice.dbservice.DbService;
 import ru.dolgov.webservice.dbservice.DbServiceException;
 import ru.dolgov.webservice.dbservice.DbServiceImpl;
