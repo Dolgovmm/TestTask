@@ -2,3 +2,7 @@
 *.iml
 /out
 /target
+client/.idea/
+client/*.iml
+client/target
+client/out
