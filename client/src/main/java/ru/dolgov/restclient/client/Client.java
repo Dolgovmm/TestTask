@@ -1,20 +1,16 @@
 package ru.dolgov.restclient.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import ru.dolgov.restclient.entity.Contact;
-import ru.dolgov.restclient.entity.User;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Михалыч on 28.05.2017.
@@ -29,14 +25,13 @@ public class Client {
     public void addContact(Contact contact, User user) throws IOException {
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost postRequest = new HttpPost(SERVICE_URL + URL_TO_ADD);
+        String authString = Base64.encode(user.getStringToAuth().getBytes());
+
+        postRequest.setHeader("Authorization", "Baic" + authString);
         ObjectMapper mapper = new ObjectMapper();
         StringEntity input = new StringEntity(mapper.writeValueAsString(contact));
         input.setContentType("application/json");
         postRequest.setEntity(input);
-
-        String authString = Base64.encode(user.getStringToAuth().getBytes());
-
-        postRequest.
 
         HttpResponse response = client.execute(postRequest);
 
