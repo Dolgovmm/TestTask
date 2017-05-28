@@ -15,10 +15,8 @@ public class HibernateSessionFactory {
 
     public static SessionFactory getSessionFactory(){
         if (sessionFactory == null){
-			//try {
 				sessionFactory = new Configuration().configure().buildSessionFactory();
 				logger.debug("Hibernate session factory created");
-			//} catch ()
         }
         return sessionFactory;
     }
