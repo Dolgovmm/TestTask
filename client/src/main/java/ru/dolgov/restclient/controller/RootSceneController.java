@@ -84,6 +84,8 @@ public class RootSceneController {
         }
     }
 
+
+
     private void setLabelTextFromContactList(List<Contact> list) {
         getContactByNameIdLbl.setText(list.get(0).getId().toString());
         getContactByNameFirstNameLbl.setText(list.get(0).getFirstName());

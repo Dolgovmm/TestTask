@@ -1,11 +1,13 @@
 package ru.dolgov.restclient.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.http.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -35,22 +37,17 @@ public class Client {
 
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost postRequest = new HttpPost(SERVICE_URL + URL_TO_ADD);
-        String authString = Base64.encode(User.getStringToAuth().getBytes());
-        postRequest.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + authString);
+        postRequest.setHeader(HttpHeaders.AUTHORIZATION, "Basic " +
+                Base64.encode(User.getStringToAuth().getBytes()));
 
-        ObjectMapper mapper = new ObjectMapper();
-        StringEntity input = new StringEntity(mapper.writeValueAsString(contact), "UTF-8");
-        input.setContentType("application/json");
-        postRequest.setEntity(input);
+        postRequest.setEntity(createStringEntity(contact));
 
         HttpResponse response = client.execute(postRequest);
 
-        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_CREATED) {
-            result = "error add contact to service with response code: " + response.getStatusLine().getStatusCode();
-        }
-
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED) {
             result = "add contact to service successfully";
+        } else {
+            result = "error add contact to service with response code: " + response.getStatusLine().getStatusCode();
         }
         client.close();
         return result;
@@ -61,8 +58,8 @@ public class Client {
 
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpGet getRequest = new HttpGet(SERVICE_URL + URL_TO_GET + name);
-        String authString = Base64.encode(User.getStringToAuth().getBytes());
-        getRequest.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + authString);
+        getRequest.setHeader(HttpHeaders.AUTHORIZATION, "Basic " +
+                Base64.encode(User.getStringToAuth().getBytes()));
 
         HttpResponse response = client.execute(getRequest);
 
@@ -77,5 +74,34 @@ public class Client {
 
         client.close();
         return list;
+    }
+
+    public String updateContact(Contact contact) throws IOException {
+        String result = "";
+
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        HttpPut putRequest = new HttpPut(SERVICE_URL + URL_TO_UPDATE);
+        putRequest.setHeader(HttpHeaders.AUTHORIZATION, "Basic " +
+                Base64.encode(User.getStringToAuth().getBytes()));
+
+        putRequest.setEntity(createStringEntity(contact));
+
+        HttpResponse response = client.execute(putRequest);
+
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            result = "update contact to service successfully";
+        } else {
+            result = "error update contact to service with response code: " + response.getStatusLine().getStatusCode();
+        }
+
+        client.close();
+        return result;
+    }
+
+    private StringEntity createStringEntity(Contact contact) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        StringEntity input = new StringEntity(mapper.writeValueAsString(contact), "UTF-8");
+        input.setContentType("application/json");
+        return input;
     }
 }
