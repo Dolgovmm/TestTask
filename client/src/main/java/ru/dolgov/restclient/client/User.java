@@ -19,12 +19,7 @@ public class User {
         return login;
     }
 
-    //    public User(String login, String password) {
-//        this.login = login;
-//        this.password = password;
-//    }
-
-    public String getStringToAuth() {
+    public static String getStringToAuth() {
         return login + ":" + password;
     }
 }

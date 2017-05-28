@@ -54,7 +54,7 @@ public class Contact implements Serializable{
         return telephone;
     }
 
-    public void setTelephoneNumber(String telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
