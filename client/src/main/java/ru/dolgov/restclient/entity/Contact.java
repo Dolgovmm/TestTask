@@ -1,30 +1,21 @@
-package ru.dolgov.webservice.entity;
+package ru.dolgov.restclient.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * @author M.Dolgov
  * @date 22.05.2017
  */
-@Entity
-@Table(name = "contacts")
 public class Contact implements Serializable{
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
+
     private Integer id;
 
-    @Column(name = "firstname", length = 255, nullable = false, unique = true)
     private String firstName;
 
-    @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "telephone")
     private String telephone;
 
     public Integer getId() {
