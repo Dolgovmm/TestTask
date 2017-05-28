@@ -74,7 +74,7 @@ public class ContactController {
 			logger.debug("create contact entity from json string");
             repository.update(contact);
 			logger.debug("update created Contact entity: " + contact.toString() + " to repository");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
             logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
