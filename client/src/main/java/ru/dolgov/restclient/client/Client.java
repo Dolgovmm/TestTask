@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.http.*;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -92,6 +93,28 @@ public class Client {
             result = "update contact to service successfully";
         } else {
             result = "error update contact to service with response code: " + response.getStatusLine().getStatusCode();
+        }
+
+        client.close();
+        return result;
+    }
+
+    public String deleteContact(Contact contact) throws IOException {
+        String result = "";
+
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        MyHttpDelete deleteRequest = new MyHttpDelete(SERVICE_URL + URL_TO_DELETE);
+        deleteRequest.setHeader(HttpHeaders.AUTHORIZATION, "Basic " +
+                Base64.encode(User.getStringToAuth().getBytes()));
+
+        deleteRequest.setEntity(createStringEntity(contact));
+
+        HttpResponse response = client.execute(deleteRequest);
+
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            result = "delete contact to service successfully";
+        } else {
+            result = "error delete contact to service with response code: " + response.getStatusLine().getStatusCode();
         }
 
         client.close();

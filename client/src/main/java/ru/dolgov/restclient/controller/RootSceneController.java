@@ -59,29 +59,54 @@ public class RootSceneController {
         try {
             result = client.addContact(contact);
         } catch (IOException e) {
-            e.printStackTrace();
+            result = "IO error on add contact";
         }
         textFieldResult.setText(result);
     }
 
     public void onGetByNameBtnClick() {
         List<Contact> list = null;
+        String result = "";
 
         try {
             list = client.getContactByName(textFieldNameToSearch.getText());
-            setLabelTextFromContactList(list);
+            if (list != null && list.size() > 0) {
+                setLabelTextFromContactList(list);
+            } else {
+                result = "no contact with this name";
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            result = "IO error on get by name";
         }
         if (list != null & list.size() > 0) {
-            textFieldResult.setText("get contact by name successfully");
-        }
-        if (list != null & list.size() == 0) {
-            textFieldResult.setText("no contact with this name");
+            result = "get contact by name successfully";
         }
         if (list == null) {
-            textFieldResult.setText("get by name end with error");
+            result = "get by name end with error";
         }
+        textFieldResult.setText(result);
+    }
+
+    public void onUpdateBtnClick() {
+        Contact contact = createContact();
+        String result = "";
+        try {
+            result = client.updateContact(contact);
+        } catch (IOException e) {
+            result = "IO error on update contact";
+        }
+        textFieldResult.setText(result);
+    }
+
+    public void onDeleteBtnClick() {
+        Contact contact = createContact();
+        String result = "";
+        try {
+            result = client.deleteContact(contact);
+        } catch (IOException e) {
+            result = "IO error on delete contact";
+        }
+        textFieldResult.setText(result);
     }
 
 
