@@ -3,7 +3,8 @@ package ru.dolgov.restclient.client;
 import org.apache.http.client.methods.HttpPost;
 
 /**
- * Created by Михалыч on 28.05.2017.
+ * @author M.Dolgov
+ * @date 28.05.2017
  */
 public class MyHttpDelete extends HttpPost {
 

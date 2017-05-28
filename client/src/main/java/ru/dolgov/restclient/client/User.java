@@ -1,7 +1,8 @@
 package ru.dolgov.restclient.client;
 
 /**
- * Created by Михалыч on 28.05.2017.
+ * @author M.Dolgov
+ * @date 28.05.2017
  */
 public class User {
     private static String login = "";
