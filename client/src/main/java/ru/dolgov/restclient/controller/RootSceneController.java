@@ -9,6 +9,7 @@ import ru.dolgov.restclient.client.User;
 import ru.dolgov.restclient.entity.Contact;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Михалыч on 28.05.2017.
@@ -64,23 +65,31 @@ public class RootSceneController {
     }
 
     public void onGetByNameBtnClick() {
-        Contact contact = null;
+        List<Contact> list = null;
 
         try {
-            contact = client.getContactByName(textFieldNameToSearch.getText());
-            getContactByNameIdLbl.setText(contact.getId().toString());
-            getContactByNameFirstNameLbl.setText(contact.getFirstName());
-            getContactByNameLastNameLbl.setText(contact.getLastName());
-            getContactByNameEmailLbl.setText(contact.getEmail());
-            getContactByNameTelephoneLbl.setText(contact.getTelephone());
+            list = client.getContactByName(textFieldNameToSearch.getText());
+            setLabelTextFromContactList(list);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (contact != null) {
+        if (list != null & list.size() > 0) {
             textFieldResult.setText("get contact by name successfully");
-        } else {
+        }
+        if (list != null & list.size() == 0) {
             textFieldResult.setText("no contact with this name");
         }
+        if (list == null) {
+            textFieldResult.setText("get by name end with error");
+        }
+    }
+
+    private void setLabelTextFromContactList(List<Contact> list) {
+        getContactByNameIdLbl.setText(list.get(0).getId().toString());
+        getContactByNameFirstNameLbl.setText(list.get(0).getFirstName());
+        getContactByNameLastNameLbl.setText(list.get(0).getLastName());
+        getContactByNameEmailLbl.setText(list.get(0).getEmail());
+        getContactByNameTelephoneLbl.setText(list.get(0).getTelephone());
     }
 
     private Contact createContact() throws NumberFormatException{

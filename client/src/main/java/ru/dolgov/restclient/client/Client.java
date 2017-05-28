@@ -56,8 +56,8 @@ public class Client {
         return result;
     }
 
-    public Contact getContactByName(String name) throws IOException {
-        Contact contact = null;
+    public List<Contact> getContactByName(String name) throws IOException {
+        List<Contact> list = null;
 
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpGet getRequest = new HttpGet(SERVICE_URL + URL_TO_GET + name);
@@ -71,14 +71,11 @@ public class Client {
         if (httpEntity != null) {
             String json = EntityUtils.toString(response.getEntity());
             ObjectMapper mapper = new ObjectMapper();
-            List<Contact> list = mapper.readValue(json,
+            list = mapper.readValue(json,
                     new TypeReference<ArrayList<Contact>>() {});
-            if (list.size() > 0) {
-                contact = list.get(0);
-            }
         }
 
         client.close();
-        return contact;
+        return list;
     }
 }
