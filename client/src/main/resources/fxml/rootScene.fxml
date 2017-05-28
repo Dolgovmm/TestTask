@@ -30,7 +30,7 @@
                     <children>
                         <TextField fx:id="textFieldNameToSearch" layoutX="25.0" layoutY="65.0" />
                         <Label layoutX="55.0" layoutY="35.0" text="Поиск по имени" />
-                        <Button layoutX="25.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Найти" />
+                        <Button onMouseClicked="#onGetByNameBtnClick" layoutX="25.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Найти" />
                     </children></Pane>
             </left>
             <right>
@@ -74,11 +74,11 @@
                         <Label text="фамилия" GridPane.rowIndex="2" />
                         <Label text="e-mail" GridPane.rowIndex="3" />
                         <Label text="телефон" GridPane.rowIndex="4" />
-                        <Label text="Label" GridPane.columnIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="getContactByNameIdLbl" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="getContactByNameFirstNameLbl" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="getContactByNameLastNameLbl" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="getContactByNameEmailLbl" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="getContactByNameTelephoneLbl" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     </children>
                 </GridPane>
             </center>

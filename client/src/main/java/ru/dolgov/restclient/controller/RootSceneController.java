@@ -25,6 +25,12 @@ public class RootSceneController {
     public TextField textFieldLastName;
     public TextField textFieldEmail;
     public TextField textFieldTelephone;
+    public TextField textFieldNameToSearch;
+    public Label getContactByNameIdLbl;
+    public Label getContactByNameFirstNameLbl;
+    public Label getContactByNameLastNameLbl;
+    public Label getContactByNameEmailLbl;
+    public Label getContactByNameTelephoneLbl;
 
     private Client client;
 
@@ -55,6 +61,26 @@ public class RootSceneController {
             e.printStackTrace();
         }
         textFieldResult.setText(result);
+    }
+
+    public void onGetByNameBtnClick() {
+        Contact contact = null;
+
+        try {
+            contact = client.getContactByName(textFieldNameToSearch.getText());
+            getContactByNameIdLbl.setText(contact.getId().toString());
+            getContactByNameFirstNameLbl.setText(contact.getFirstName());
+            getContactByNameLastNameLbl.setText(contact.getLastName());
+            getContactByNameEmailLbl.setText(contact.getEmail());
+            getContactByNameTelephoneLbl.setText(contact.getTelephone());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (contact != null) {
+            textFieldResult.setText("get contact by name successfully");
+        } else {
+            textFieldResult.setText("no contact with this name");
+        }
     }
 
     private Contact createContact() throws NumberFormatException{
