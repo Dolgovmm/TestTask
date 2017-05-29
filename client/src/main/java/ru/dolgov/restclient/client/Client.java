@@ -69,7 +69,6 @@ public class Client {
             list = mapper.readValue(json,
                     new TypeReference<ArrayList<Contact>>() {});
         }
-
         client.close();
         return list;
     }
