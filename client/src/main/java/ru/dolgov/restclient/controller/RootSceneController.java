@@ -40,8 +40,6 @@ public class RootSceneController {
         client = new Client();
     }
 
-
-
     public void onAuthorizeBtnClick() {
         if (User.getLogin().isEmpty()) {
             User.setLogin(textFieldLogin.getText());
@@ -56,61 +54,69 @@ public class RootSceneController {
 
     public void onAddBtnClick() {
         Contact contact = createContact();
-        String result = "";
-        try {
-            result = client.addContact(contact);
-        } catch (IOException e) {
-            result = "IO error on add contact";
+        if (contact != null) {
+            String result = "";
+            try {
+                result = client.addContact(contact);
+            } catch (IOException e) {
+                result = "IO ошибка при добавлении контакта";
+            }
+            textFieldResult.setText(result);
         }
-        textFieldResult.setText(result);
     }
 
     public void onGetByNameBtnClick() {
         List<Contact> list = null;
         String result = "";
-
-        try {
-            list = client.getContactByName(textFieldNameToSearch.getText());
-            if (list != null && list.size() > 0) {
-                setLabelTextFromContactList(list);
-            } else {
-                result = "no contact with this name";
+        if (!textFieldNameToSearch.getText().isEmpty()) {
+            try {
+                list = client.getContactByName(textFieldNameToSearch.getText());
+                if (list != null && list.size() > 0) {
+                    setLabelTextFromContactList(list);
+                } else {
+                    result = "нет контактов с таким именеи";
+                }
+            } catch (IOException e) {
+                result = "IO ошибка при поиске контакта по имени";
             }
-        } catch (IOException e) {
-            result = "IO error on get by name";
+            if (list == null) {
+                result = "поиск по имени завершился с ошибкой";
+            } else {
+                if (list != null & list.size() > 0) {
+                    result = "поиск контакта по имени выполнен";
+                }
+            }
+            textFieldResult.setText(result);
+        } else {
+            textFieldResult.setText("введите имя для поиска");
         }
-        if (list != null & list.size() > 0) {
-            result = "get contact by name successfully";
-        }
-        if (list == null) {
-            result = "get by name end with error";
-        }
-        textFieldResult.setText(result);
     }
 
     public void onUpdateBtnClick() {
         Contact contact = createContact();
-        String result = "";
-        try {
-            result = client.updateContact(contact);
-        } catch (IOException e) {
-            result = "IO error on update contact";
+        if (contact != null) {
+            String result = "";
+            try {
+                result = client.updateContact(contact);
+            } catch (IOException e) {
+                result = "IO ошибка изменения контакта";
+            }
+            textFieldResult.setText(result);
         }
-        textFieldResult.setText(result);
     }
 
     public void onDeleteBtnClick() {
         Contact contact = createContact();
-        String result = "";
-        try {
-            result = client.deleteContact(contact);
-        } catch (IOException e) {
-            result = "IO error on delete contact";
+        if (contact != null) {
+            String result = "";
+            try {
+                result = client.deleteContact(contact);
+            } catch (IOException e) {
+                result = "IO ошибка удаления контакта";
+            }
+            textFieldResult.setText(result);
         }
-        textFieldResult.setText(result);
     }
-
-
 
     private void setLabelTextFromContactList(List<Contact> list) {
         getContactByNameIdLbl.setText(list.get(0).getId().toString());
@@ -127,8 +133,8 @@ public class RootSceneController {
                 int id = Integer.parseInt(textFieldID.getText());
                 contact.setId(id);
             } catch (NumberFormatException e) {
-                System.out.println("error parse id");
-                contact.setId(-1);
+                textFieldResult.setText("в поле ID нужно вводить только цифры");
+                return null;
             }
         }
         contact.setFirstName(textFieldFirstName.getText());

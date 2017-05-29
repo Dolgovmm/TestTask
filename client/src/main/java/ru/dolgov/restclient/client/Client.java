@@ -43,9 +43,9 @@ public class Client {
         HttpResponse response = client.execute(postRequest);
 
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED) {
-            result = "add contact to service successfully";
+            result = "добавление контакта выполнено";
         } else {
-            result = "error add contact to service with response code: " + response.getStatusLine().getStatusCode();
+            result = "ошибка добавления контакта с кодом ответа: " + response.getStatusLine().getStatusCode();
         }
         client.close();
         return result;
@@ -86,9 +86,9 @@ public class Client {
         HttpResponse response = client.execute(putRequest);
 
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            result = "update contact to service successfully";
+            result = "изменение контакта выполнено";
         } else {
-            result = "error update contact to service with response code: " + response.getStatusLine().getStatusCode();
+            result = "ошибка изменения контакта с кодом ответа: " + response.getStatusLine().getStatusCode();
         }
 
         client.close();
@@ -108,9 +108,9 @@ public class Client {
         HttpResponse response = client.execute(deleteRequest);
 
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            result = "delete contact to service successfully";
+            result = "удаление контакта выполнено";
         } else {
-            result = "error delete contact to service with response code: " + response.getStatusLine().getStatusCode();
+            result = "ошибка удаления коонтакта с кодом ответа: " + response.getStatusLine().getStatusCode();
         }
 
         client.close();
