@@ -19,9 +19,7 @@ public class RepositoryImpl implements Repository {
     private DbService dbService;
 
     public RepositoryImpl() {
-		logger.debug("begin constructor RepositoryImpl");
         dbService = new DbServiceImpl();
-		logger.debug("end constructor RepositoryImpl");
    }
 
     @Override
