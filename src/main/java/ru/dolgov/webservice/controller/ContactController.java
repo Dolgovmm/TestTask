@@ -32,19 +32,27 @@ public class ContactController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Contact> addContact(@RequestBody String json){
-        logger.debug("add Contact method with request json: " + json);
-        Contact contact;
+        Contact contact = null;
 		try {
             contact = new ObjectMapper().readValue(json, Contact.class);
-            logger.debug("create contact entity from json string");
 			repository.add(contact);
-			logger.debug("add created Contact entity: " + contact.toString() + " to repository");
+			if (logger.isDebugEnabled()) {
+			    StringBuilder sb = new StringBuilder();
+			    sb.append("Add contact {");
+			    if (contact != null) {
+                    sb.append(contact.toString());
+                } else {
+			        sb.append("null");
+                }
+                sb.append("} to repository");
+                logger.debug(sb.toString());
+            }
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IOException e) {
-            logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
+            logErrorParseJson(json, e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (DbServiceException e) {
-			logger.error("error add Contact entity to repository wih message: " + e.getMessage());
+            logErrorDbService("add", contact, e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
     }
@@ -52,14 +60,34 @@ public class ContactController {
     @RequestMapping(value = "/contacts/{name}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Contact>> getContactByName(@PathVariable String name){
-        logger.debug("get by name method with request name: " + name);
 		List<Contact> contacts = null;
         try {
             contacts = repository.getByName(name);
-			logger.debug("get Contact entity: " + contacts.toString() + " from DB");
+            if (logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("get contact list {");
+                if (contacts != null) {
+                    sb.append(contacts.toString());
+                } else {
+                    sb.append("null");
+                }
+                sb.append("} from repository");
+                logger.debug(sb.toString());
+            }
             return new ResponseEntity<>(contacts, HttpStatus.OK);
         } catch (DbServiceException e) {
-            logger.error("error getting Contact entity from DB with message: + " + e.getMessage());
+            if (logger.isErrorEnabled()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Error get list of contacts {");
+                if (contacts != null) {
+                    sb.append(contacts.toString());
+                } else {
+                    sb.append("null");
+                }
+                sb.append("} from repository with message: ");
+                sb.append(e.getMessage());
+                logger.error(sb.toString());
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -67,19 +95,27 @@ public class ContactController {
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<Contact> updateContact(@RequestBody String json){
-        logger.debug("update Contact method with request json: " + json);
-        Contact contact;
+        Contact contact = null;
 		try {
             contact = new ObjectMapper().readValue(json, Contact.class);
-			logger.debug("create contact entity from json string");
             repository.update(contact);
-			logger.debug("update created Contact entity: " + contact.toString() + " to repository");
+            if (logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Update contact {");
+                if (contact != null) {
+                    sb.append(contact.toString());
+                } else {
+                    sb.append("null");
+                }
+                sb.append("} to repository");
+                logger.debug(sb.toString());
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
-            logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
+            logErrorParseJson(json, e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (DbServiceException e) {
-			logger.error("error update Contact entity from DB with message: + " + e.getMessage());
+            logErrorDbService("update", contact, e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
     }
@@ -87,20 +123,56 @@ public class ContactController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<Contact> deleteContact(@RequestBody String json){
-        logger.debug("delete Contact method with request json: " + json);
-		Contact contact;
+        Contact contact = null;
         try {
             contact = new ObjectMapper().readValue(json, Contact.class);
-            logger.debug("create contact entity from json string");
-			repository.delete(contact);
-            logger.debug("delete created Contact entity: " + contact.toString() + " from repository");
-			return new ResponseEntity<>(HttpStatus.OK);
+            repository.delete(contact);
+            if (logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Delete contact {");
+                if (contact != null) {
+                    sb.append(contact.toString());
+                } else {
+                    sb.append("null");
+                }
+                sb.append("} from repository");
+                logger.debug(sb.toString());
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
-            logger.error("error create Contact entity from json string: " + json + " with message: + " + e.getMessage());
+            logErrorParseJson(json, e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (DbServiceException e) {
-			logger.error("error delete Contact entity from DB with message: + " + e.getMessage());
+            logErrorDbService("delete", contact, e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+        }
+    }
+
+    private void logErrorParseJson(String json, IOException e) {
+        if (logger.isErrorEnabled()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Error create Contact entity from json string {");
+            sb.append(json);
+            sb.append("} with message: ");
+            sb.append(e.getMessage());
+            logger.error(sb.toString());
+        }
+    }
+
+    private void logErrorDbService(String method, Contact contact, DbServiceException e) {
+        if (logger.isErrorEnabled()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Error ");
+            sb.append(method);
+            sb.append(" Contact entity {");
+            if (contact != null) {
+                sb.append(contact.toString());
+            } else {
+                sb.append("null");
+            }
+            sb.append("} to repository with message: ");
+            sb.append(e.getMessage());
+            logger.error(sb.toString());
+        }
     }
 }
